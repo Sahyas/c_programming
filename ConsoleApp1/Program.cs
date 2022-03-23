@@ -1,8 +1,10 @@
-﻿namespace ClassLibrary
+﻿// See https://aka.ms/new-console-template for more information
+
+namespace ClassLibrary
 {
     public class Class1
     {
-        public int Add(int x, int y)
+        public static void Main()
         {
             int result;
             int a = 5;
