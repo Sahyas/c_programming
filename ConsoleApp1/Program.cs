@@ -9,7 +9,8 @@ namespace ClassLibrary
             int result;
             int a = 5;
             int b = 10;
-            result = a + b;
+            int c = 3;
+            result = (a + b)/c;
             Console.WriteLine(result);
         }
     }
