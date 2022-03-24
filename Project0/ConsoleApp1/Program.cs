@@ -6,7 +6,7 @@ namespace ClassLibrary
     {
         public static void Main()
         {
-            Console.WriteLine("Podaj 3 liczby: ");
+            Console.WriteLine("Podaj 3 liczby:");
             double a = double.Parse(Console.ReadLine());
             double b = double.Parse(Console.ReadLine());
             double c = double.Parse(Console.ReadLine());
