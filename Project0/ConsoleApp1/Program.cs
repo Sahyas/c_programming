@@ -12,7 +12,7 @@ namespace ClassLibrary
             double c = double.Parse(Console.ReadLine());
             Class1 klasa = new Class1();
             double result0 = klasa.Add(a,b,c);
-            double result1 = klasa.Sub(a,b,c); 
+            double result1 = klasa.Sub(a,b,c);
             double result2 = klasa.Mult(a,b,c);
             double result3 = klasa.Div(a,b,c);
             Console.WriteLine("Dodawanie:");
