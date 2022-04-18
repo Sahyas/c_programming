@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <ProgressBar Name="progressBar" Height="30" Margin="10" Maximum="255"
+                     Value="{Binding ElementName=slider, Path=Value}" />
+        <Slider x:Name="slider" Height="30" Maximum="255" />
+    </StackPanel>
 </Window>
