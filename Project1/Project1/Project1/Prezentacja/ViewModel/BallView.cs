@@ -9,15 +9,29 @@ namespace ViewModel
     public class BallView : INotifyPropertyChanged
     { 
 
-    private BallView model = new BallView();
+    private Ball model = new Ball();
+
+        private int myValue = 70;
+
+        public int MyValue
+        {
+            get
+            {
+                return this.myValue;
+            }
+            set
+            {
+                this.myValue = value;
+            }
+        }
 
         public double wartoscPromienia 
         {
             get {
-                return model.wartoscPromienia; 
+                return model.promien; 
             }
             set { 
-                model.wartoscPromienia = value;
+                model.promien = value;
                 onPropertyChanged(nameof(wartoscPromienia));
             }
         }

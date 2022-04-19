@@ -4,11 +4,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:v="clr-namespace:View"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <ProgressBar Name="progressBar" Height="30" Margin="10" Maximum="255"
-                     Value="{Binding ElementName=slider, Path=Value}" />
-        <Slider x:Name="slider" Height="30" Maximum="255" />
+        Title="MainWindow" Height="1000" Width="700">
+    <Window.DataContext>
+        <vm:BallView/>
+    </Window.DataContext>
+
+    <StackPanel Orientation="Vertical">
+
+
+
+        <Canvas Width="900" Height="600">
+            <!-- Draws an oval with a blue interior. -->
+            <Ellipse Name="Elipse1" Width= "{ Binding Radious }" Height="50" Fill="Blue" Canvas.Left="400" Canvas.Top="250" Opacity="1">
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                Storyboard.TargetName="Elipse1"
+                                Storyboard.TargetProperty="Height"
+                                From="10.0"
+                                To="250.0"
+                                Duration="0:0:5"
+                                AutoReverse="True"
+                                RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <!-- Draws an oval with a blue interior and a black outline. -->
+            <Ellipse Width="50" Height="50" Fill="Blue" Stroke="Black" StrokeThickness="4" Canvas.Left="400" Canvas.Top="100">
+            </Ellipse>
+
+            <!-- Draws a circle with a blue interior. -->
+            <Ellipse Width="{Binding MyValue, Mode=TwoWay}"
+                     Height="70" Fill="Yellow" Canvas.Left="135" Canvas.Top="250" />
+
+            <!-- Draws a circle with a blue interior and a black outline. -->
+            <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="4" Canvas.Left="135" Canvas.Top="100" />
+            <Rectangle Width="600" Height="600" Stroke="black" Canvas.Left="50" Canvas.Top="50"/>
+            <Button Content="dodaj kulę" MinHeight="100" MinWidth="200" Canvas.Left="50" Canvas.Top="700" Command= "{Binding ButtomClick}"/>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="260" Canvas.Top="700" 
+                       Text="Wprowadz promien z zakresu (0; 100>:"/>
+            <TextBox Text="{Binding MyValue, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="260" Canvas.Top="750">
+            </TextBox>
+        </Canvas>
     </StackPanel>
 </Window>
