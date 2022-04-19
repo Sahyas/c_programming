@@ -10,10 +10,10 @@ namespace ViewModel
     { 
 
     private Ball model = new Ball();
+        Random rng = new Random();
+        private double myValue = 100;
 
-        private int myValue = 70;
-
-        public int MyValue
+        public double MyValue
         {
             get
             {
@@ -22,6 +22,7 @@ namespace ViewModel
             set
             {
                 this.myValue = value;
+                onPropertyChanged(nameof(MyValue));
             }
         }
 
@@ -35,7 +36,34 @@ namespace ViewModel
                 onPropertyChanged(nameof(wartoscPromienia));
             }
         }
-    private void onPropertyChanged(string nazwa)
+
+        public double wartoscX
+        {
+            get
+            {
+                return model.x;
+            }
+            set
+            {
+                model.x = rng.Next(500);
+                onPropertyChanged(nameof(wartoscPromienia));
+            }
+        }
+
+        public double wartoscY
+        {
+            get
+            {
+                return model.y;
+            }
+            set
+            {
+                model.y = rng.Next(500);
+                onPropertyChanged(nameof(wartoscPromienia));
+            }
+        }
+
+        private void onPropertyChanged(string nazwa)
         {
             if(PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(nazwa));
         }
