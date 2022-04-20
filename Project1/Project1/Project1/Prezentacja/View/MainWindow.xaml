@@ -19,7 +19,7 @@
 
             <!-- Draws a circle with a blue interior. -->
             <Ellipse Width="{Binding MyValue, Mode=TwoWay}"
-                     Height="{Binding , Mode=TwoWay}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
+                     Height="{Binding MyValue, Mode=TwoWay}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
 
             <!-- Draws a circle with a blue interior and a black outline. -->
             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="4" Canvas.Left="135" Canvas.Top="100" />

@@ -9,7 +9,7 @@ namespace ViewModel
     public class BallView : INotifyPropertyChanged
     { 
 
-    private Ball model = new Ball();
+    private BallModel model = new BallModel();
         Random rng = new Random();
         private double myValue = 100;
 
