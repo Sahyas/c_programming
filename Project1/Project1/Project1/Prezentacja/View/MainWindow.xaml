@@ -16,33 +16,10 @@
 
 
         <Canvas Width="900" Height="600">
-            <!-- Draws an oval with a blue interior. -->
-            <Ellipse Name="Elipse1" Width= "{ Binding Radious }" Height="50" Fill="Blue" Canvas.Left="400" Canvas.Top="250" Opacity="1">
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation
-                                Storyboard.TargetName="Elipse1"
-                                Storyboard.TargetProperty="Height"
-                                From="10.0"
-                                To="250.0"
-                                Duration="0:0:5"
-                                AutoReverse="True"
-                                RepeatBehavior="Forever" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <!-- Draws an oval with a blue interior and a black outline. -->
-            <Ellipse Width="50" Height="50" Fill="Blue" Stroke="Black" StrokeThickness="4" Canvas.Left="400" Canvas.Top="100">
-            </Ellipse>
 
             <!-- Draws a circle with a blue interior. -->
             <Ellipse Width="{Binding MyValue, Mode=TwoWay}"
-                     Height="{Binding MyValue, Mode=TwoWay}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
+                     Height="{Binding , Mode=TwoWay}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
 
             <!-- Draws a circle with a blue interior and a black outline. -->
             <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="4" Canvas.Left="135" Canvas.Top="100" />

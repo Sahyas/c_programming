@@ -26,17 +26,6 @@ namespace ViewModel
             }
         }
 
-        public double wartoscPromienia 
-        {
-            get {
-                return model.promien; 
-            }
-            set { 
-                model.promien = value;
-                onPropertyChanged(nameof(wartoscPromienia));
-            }
-        }
-
         public double wartoscX
         {
             get
@@ -46,7 +35,7 @@ namespace ViewModel
             set
             {
                 model.x = rng.Next(500);
-                onPropertyChanged(nameof(wartoscPromienia));
+                onPropertyChanged(nameof(wartoscX));
             }
         }
 
@@ -59,7 +48,7 @@ namespace ViewModel
             set
             {
                 model.y = rng.Next(500);
-                onPropertyChanged(nameof(wartoscPromienia));
+                onPropertyChanged(nameof(wartoscY));
             }
         }
 
