@@ -11,7 +11,7 @@ namespace Logika
         public int size { get; set; }
         public List<Ball> balls { get; set; }
         private Task updatePosition;
-        private int speed = 1;
+        private int speed = 10;
 
         public Board(int size)
         {
@@ -29,10 +29,10 @@ namespace Logika
 
         public void MoveBalls()
         {
-            for(int i = 0; i < balls.Count; i++)
-            {
-                balls[i].changeBallPosition(size);
-            }
+                foreach (Ball ball in balls)
+                {
+                ball.changeBallPosition(size);
+                }
         }
 
         public void MoveBallsConstantly()

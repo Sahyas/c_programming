@@ -29,7 +29,7 @@ namespace Logika
             public BussinessLogic(DaneAPI daneAPI)
             {
                 this.daneAPI = daneAPI;
-                Board = new Board(800);
+                Board = new Board(500);
             }
 
             public override void addBalls(int BallsNumber)
@@ -44,7 +44,10 @@ namespace Logika
 
             public override void start()
             {
-                updatePosition = Task.Run(Board.MoveBallsConstantly);
+                if (Board.balls.Count > 0)
+                {
+                    updatePosition = Task.Run(Board.MoveBallsConstantly);
+                }
             }
         }
 

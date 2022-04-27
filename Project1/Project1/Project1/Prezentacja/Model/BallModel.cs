@@ -14,14 +14,17 @@ namespace Model
             this.ball = ball;
         }
 
+        private double positionX;
+
         public double X
         {
-            get { return this.ball.positionX; }
+            get { return ball.positionX; }
         }
 
+        private double positionY;
         public double Y
         {
-            get { return this.ball.positionY; }
+            get { return ball.positionY; }
         }
 
     }

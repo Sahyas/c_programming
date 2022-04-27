@@ -3,32 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:v="clr-namespace:View"
-        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:vm1="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="700">
+        Title="Concurrent programming" 
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+        WindowState="Maximized">
     <Window.DataContext>
-        <vm:BallView/>
+        <vm1:ViewModelWindow/>
     </Window.DataContext>
-
     <StackPanel Orientation="Vertical">
 
+        <Canvas Width="650" Height="850">
+            <Grid>
+                <Button x:Name="startButton" Content="START" Height="50" Width="100" Margin="275,744,275,40" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
+                <Label  Height="50"  Width="240" Margin="205,612,205,172" Content="{Binding ErrorMessage}"/>
+                <TextBox IsEnabled="{Binding State}" Name="intputText" Text="{Binding InputText}" FontSize="30" TextAlignment="Center" Height="50"  Width="240" BorderBrush="Black"  BorderThickness="2" Margin="205,667,205,117"/>
 
+                <Grid x:Name="board" Height="550" Width="550" Margin="25,27,25,207" >
 
-        <Canvas Width="900" Height="600">
+                    <Border BorderBrush="Black" Background="LightGray" BorderThickness="3">
+                        <ItemsControl ItemsSource="{Binding Balls}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Height="550" Width="550" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-            <Ellipse Width="{Binding BallRadius}"
-                     Height="{Binding BallRadius}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width= "15" Height="15" Fill="Blue" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
 
-            <Rectangle Width="{Binding RectangleWidth}" Height="{Binding RectangleHeight}" Stroke="black" Canvas.Left="50" Canvas.Top="50"/>
-            
-            <Button Content="dodaj kulki" MinHeight="100" MinWidth="200" Canvas.Left="50" Canvas.Top="700" Command= "{Binding ButtomClick}"/>
-            
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="260" Canvas.Top="700" 
-                       Text="Wprowadz liczbę kul:"/>
-            
-            <TextBox Text="{Binding BallsNumber, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Canvas.Left="260" Canvas.Top="750"></TextBox>
-           
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter  Property="Canvas.Top" Value="{Binding Y}"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+            </Grid>
+
         </Canvas>
     </StackPanel>
 </Window>

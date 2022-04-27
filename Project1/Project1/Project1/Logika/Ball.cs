@@ -4,12 +4,12 @@ namespace Logika
 {
     public class Ball
     {
-        public double positionX { get; set; }
-        public double positionY { get; set; }
-        public double shiftX { get; set; }
-        public double shiftY { get; set; }
+        public double positionX { get; private set; }
+        public double positionY { get; private set; }
+        public double shiftX { get; private set; }
+        public double shiftY { get; private set; }
 
-        public Random rng = new Random();
+        Random rng = new Random();
 
         public double generateRandomDouble(double min, double max)
         {
@@ -18,11 +18,12 @@ namespace Logika
 
         public Ball()
         {
-            positionX = generateRandomDouble(0, 100);
-            positionY = generateRandomDouble(0, 100);
+         
+            positionX = generateRandomDouble(1, 100);
+            positionY = generateRandomDouble(1, 100);
 
-            shiftX = generateRandomDouble(0, 2);
-            shiftY = generateRandomDouble(0, 2);
+            shiftX = generateRandomDouble(1, 2);
+            shiftY = generateRandomDouble(1, 2);
         }
 
         public void changeBallPosition(int edge)
@@ -30,11 +31,11 @@ namespace Logika
             double x = positionX + shiftX;
             double y = positionY + shiftY;
 
-            if(x > edge || y < edge)
+            if(x > edge || x < 0)
             {
                 shiftX = -shiftX;
             }
-            if(y > edge || x < edge)
+            if(y > edge || y < 0)
             {
                 shiftY = -shiftY;
             }
