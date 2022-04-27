@@ -9,48 +9,9 @@ namespace ViewModel
     public class BallView : INotifyPropertyChanged
     { 
 
-    private BallModel model = new BallModel();
+    private ModelApi model = new ModelApi();
         Random rng = new Random();
         private double myValue = 100;
-
-        public double MyValue
-        {
-            get
-            {
-                return this.myValue;
-            }
-            set
-            {
-                this.myValue = value;
-                onPropertyChanged(nameof(MyValue));
-            }
-        }
-
-        public double wartoscX
-        {
-            get
-            {
-                return model.x;
-            }
-            set
-            {
-                model.x = rng.Next(500);
-                onPropertyChanged(nameof(wartoscX));
-            }
-        }
-
-        public double wartoscY
-        {
-            get
-            {
-                return model.y;
-            }
-            set
-            {
-                model.y = rng.Next(500);
-                onPropertyChanged(nameof(wartoscY));
-            }
-        }
 
         private void onPropertyChanged(string nazwa)
         {

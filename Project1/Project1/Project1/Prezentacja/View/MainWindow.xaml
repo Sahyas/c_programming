@@ -17,18 +17,18 @@
 
         <Canvas Width="900" Height="600">
 
-            <!-- Draws a circle with a blue interior. -->
-            <Ellipse Width="{Binding MyValue, Mode=TwoWay}"
-                     Height="{Binding MyValue, Mode=TwoWay}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
+            <Ellipse Width="{Binding BallRadius}"
+                     Height="{Binding BallRadius}" Fill="Yellow" Canvas.Left="{Binding wartoscX}" Canvas.Top="{Binding wartoscY}" />
 
-            <!-- Draws a circle with a blue interior and a black outline. -->
-            <Ellipse Width="50" Height="50" Stroke="Black" StrokeThickness="4" Canvas.Left="135" Canvas.Top="100" />
-            <Rectangle Width="600" Height="600" Stroke="black" Canvas.Left="50" Canvas.Top="50"/>
-            <Button Content="dodaj kulę" MinHeight="100" MinWidth="200" Canvas.Left="50" Canvas.Top="700" Command= "{Binding ButtomClick}"/>
+            <Rectangle Width="{Binding RectangleWidth}" Height="{Binding RectangleHeight}" Stroke="black" Canvas.Left="50" Canvas.Top="50"/>
+            
+            <Button Content="dodaj kulki" MinHeight="100" MinWidth="200" Canvas.Left="50" Canvas.Top="700" Command= "{Binding ButtomClick}"/>
+            
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="260" Canvas.Top="700" 
-                       Text="Wprowadz promien z zakresu (0; 100>:"/>
-            <TextBox Text="{Binding MyValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Canvas.Left="260" Canvas.Top="750">
-            </TextBox>
+                       Text="Wprowadz liczbę kul:"/>
+            
+            <TextBox Text="{Binding BallsNumber, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Canvas.Left="260" Canvas.Top="750"></TextBox>
+           
         </Canvas>
     </StackPanel>
 </Window>
