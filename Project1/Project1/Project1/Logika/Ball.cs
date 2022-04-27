@@ -19,11 +19,11 @@ namespace Logika
         public Ball()
         {
          
-            positionX = generateRandomDouble(1, 100);
-            positionY = generateRandomDouble(1, 100);
+            positionX = generateRandomDouble(1, 500);
+            positionY = generateRandomDouble(1, 500);
 
-            shiftX = generateRandomDouble(1, 2);
-            shiftY = generateRandomDouble(1, 2);
+            shiftX = generateRandomDouble(1, 5);
+            shiftY = generateRandomDouble(1, 5);
         }
 
         public void changeBallPosition(int edge)

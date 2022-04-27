@@ -29,7 +29,7 @@ namespace Logika
             public BussinessLogic(DaneAPI daneAPI)
             {
                 this.daneAPI = daneAPI;
-                Board = new Board(570);
+                Board = new Board(550);
             }
 
             public override void addBalls(int BallsNumber)

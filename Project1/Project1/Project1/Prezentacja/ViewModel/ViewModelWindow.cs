@@ -17,6 +17,7 @@ namespace ViewModel
         private readonly double scale = 5.35;
         public ObservableCollection<BallModel> Balls { get; set; }
         public ICommand StartButtonClick { get; set; }
+        public ICommand StopButtonClick { get; set; }
         private string inputText;
         private Task task;
 
@@ -31,7 +32,7 @@ namespace ViewModel
             set
             {
                 state = value;
-                RaisePropertyChanged(nameof(State));
+                //RaisePropertyChanged(nameof(State)); 
             }
         }
 
@@ -113,7 +114,9 @@ namespace ViewModel
                 State = false;
                 if (number > 100)
                 {
-                    return 100;
+                    //return 100;
+                    ErrorMessage = "Podaj <= 100";
+                    return 0;
                 }
                 return number;
             }
