@@ -11,7 +11,7 @@ namespace Logika
         public int size { get; set; }
         public List<Ball> balls { get; set; }
         private Task updatePosition;
-        private int speed = 10;
+        private int speed = 5;
 
         public Board(int size)
         {
