@@ -6,7 +6,7 @@ namespace LogikaTest
     public class Tests
     {
         [SetUp]
-        public void Setup()
+        public void constructorTest()
         {
             Ball ball = new Ball();
 
@@ -18,7 +18,7 @@ namespace LogikaTest
         }
 
         [Test]
-        public void Test1()
+        public void randomGeneratorTest()
         {
             Ball ball = new Ball();
 

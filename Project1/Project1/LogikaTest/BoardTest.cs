@@ -6,7 +6,7 @@ namespace LogikaTest
     public class BoardTest
     {
         [SetUp]
-        public void Setup()
+        public void constructorTest()
         {
             Board board = new Board(550);
 
@@ -15,7 +15,7 @@ namespace LogikaTest
         }
 
         [Test]
-        public void Test1()
+        public void movingTest()
         {
             Board board = new Board(100);
 
