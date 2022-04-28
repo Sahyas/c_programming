@@ -25,8 +25,8 @@ namespace LogikaTest
             Assert.IsTrue(ball.positionX <= 500 && ball.positionX >= 1);
             Assert.IsTrue(ball.positionY <= 500 && ball.positionY >= 1);
 
-            Assert.IsTrue(ball.shiftX <= 5 && ball.shiftX >= 1);
-            Assert.IsTrue(ball.shiftY <= 5 && ball.shiftY >= 1);
+            Assert.IsTrue(ball.shiftX <= 3 && ball.shiftX >= 0);
+            Assert.IsTrue(ball.shiftY <= 3 && ball.shiftY >= 0);
         }
     }
 } 
