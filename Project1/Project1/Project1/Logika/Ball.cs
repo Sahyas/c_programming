@@ -28,17 +28,20 @@ namespace Logika
 
         public void changeBallPosition(int edge)
         {
-            double x = positionX + shiftX;
-            double y = positionY + shiftY;
+            double tmpX = positionX + shiftX;
+            double tmpY = positionY + shiftY;
 
-            if(x > edge || x < 0)
+            if(tmpX > edge - 12.5 || tmpX < 0)
             {
                 shiftX = -shiftX;
             }
-            if(y > edge || y < 0)
+            if(tmpY > edge - 12.5 || tmpY < 0)
             {
                 shiftY = -shiftY;
             }
+
+            double x = positionX + shiftX;
+            double y = positionY + shiftY;
 
             positionX = x;
             positionY = y;
