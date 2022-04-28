@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logika
 {
-    internal class Board
+    public class Board
     {
         public int size { get; set; }
         public List<Ball> balls { get; set; }

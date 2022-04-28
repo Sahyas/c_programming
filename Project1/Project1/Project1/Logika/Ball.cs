@@ -22,8 +22,8 @@ namespace Logika
             positionX = generateRandomDouble(1, 500);
             positionY = generateRandomDouble(1, 500);
 
-            shiftX = generateRandomDouble(1, 5);
-            shiftY = generateRandomDouble(1, 5);
+            shiftX = generateRandomDouble(0, 3);
+            shiftY = generateRandomDouble(0, 3);
         }
 
         public void changeBallPosition(int edge)
