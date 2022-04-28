@@ -10,6 +10,8 @@ namespace Model
         public abstract List<BallModel> balls { get; }
         public abstract void addBallsAndStart(int ballsNumber);
 
+        public abstract void removeBallsAndStart();
+
         public static ModelAPI CreateApi()
         {
             return new ModelBall();
@@ -40,6 +42,11 @@ namespace Model
                     result.Add(new BallModel(ball));
                 }
                 return result;
+            }
+
+            public override void removeBallsAndStart()
+            {
+                logicApi.stop();
             }
         }
     }

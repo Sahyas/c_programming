@@ -22,6 +22,18 @@ namespace ViewModel
         private Task task;
 
         private bool state;
+        private bool notState = false;
+
+        public bool NotState
+        {
+            get { 
+                return notState; 
+            }
+            set { 
+                notState = value;
+                RaisePropertyChanged(nameof(NotState));
+            }
+        }
 
         public bool State
         {
@@ -32,7 +44,7 @@ namespace ViewModel
             set
             {
                 state = value;
-                //RaisePropertyChanged(nameof(State)); 
+                RaisePropertyChanged(nameof(State)); 
             }
         }
 
@@ -77,14 +89,21 @@ namespace ViewModel
             State = true;
             this.modelApi = baseModel;
             StartButtonClick = new RelayCommand(() => StartButtonClickHandler());
+            StopButtonClick = new RelayCommand(() => StopButtonClickHandler());
             Balls = new ObservableCollection<BallModel>();
+        }
+
+        private void StopButtonClickHandler()
+        {
+                modelApi.removeBallsAndStart();
+                readFromTextBox();
         }
 
         private void StartButtonClickHandler()
         {
-            modelApi.addBallsAndStart(readFromTextBox());
-            task = new Task(UpdatePosition);
-            task.Start();
+                modelApi.addBallsAndStart(readFromTextBox());
+                task = new Task(UpdatePosition);
+                task.Start();
         }
 
         public void UpdatePosition()
@@ -111,7 +130,8 @@ namespace ViewModel
             {
                 number = Int32.Parse(InputText);
                 ErrorMessage = "";
-                State = false;
+                State = !State;
+                NotState = !NotState;
                 if (number > 100)
                 {
                     //return 100;

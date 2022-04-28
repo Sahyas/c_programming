@@ -12,6 +12,8 @@ namespace Logika
 
         public abstract void start();
 
+        public abstract void stop();
+
         public abstract List<Ball> getBalls();
 
         public static LogicAPI Create(DaneAPI data = default(DaneAPI))
@@ -48,6 +50,11 @@ namespace Logika
                 {
                     updatePosition = Task.Run(Board.MoveBallsConstantly);
                 }
+            }
+
+            public override void stop()
+            {
+                Board.balls.Clear();
             }
         }
 
