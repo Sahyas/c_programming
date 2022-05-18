@@ -1,52 +1,73 @@
 ﻿using Logika;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace Model
 {
-    public abstract class ModelAPI
+    public interface IBall : INotifyPropertyChanged
     {
-        public abstract List<BallModel> balls { get; }
-        public abstract void addBallsAndStart(int ballsNumber);
+        double Top { get; }
+        double Left { get; }
+        int Diameter { get; }
+    }
 
-        public abstract void removeBallsAndStart();
+    public class BallChaneEventArgs : EventArgs
+    {
+        public IBall Ball { get; set; }
+    }
 
+    public abstract class ModelAPI : IObservable<IBall>
+    {
         public static ModelAPI CreateApi()
         {
             return new ModelBall();
         }
 
+        public abstract void AddBallsAndStart(int ballsAmount);
+
+        #region IObservable
+
+        public abstract IDisposable Subscribe(IObserver<IBall> observer);
+
+        #endregion IObservable
+
         internal class ModelBall : ModelAPI
         {
             private LogicAPI logicApi;
-            public override List<BallModel> balls => ChangeBallToBallInModel();
+            public event EventHandler<BallChaneEventArgs> BallChanged;
+
+            private IObservable<EventPattern<BallChaneEventArgs>> eventObservable = null;
+            private List<BallInModel> Balls = new List<BallInModel>();
 
             public ModelBall()
             {
-                logicApi = logicApi ?? LogicAPI.Create();
+                logicApi = logicApi ?? LogicAPI.CreateLayer();
+                IDisposable observer = logicApi.Subscribe<int>(x => Balls[x - 1].Move(logicApi.getBallPositionX(x), logicApi.getBallPositionY(x)));
+                eventObservable = Observable.FromEventPattern<BallChaneEventArgs>(this, "BallChanged");
             }
 
-            public override void addBallsAndStart(int ballsNumber)
+            public override void AddBallsAndStart(int ballsAmount)
             {
-                logicApi.addBalls(ballsNumber);
-                logicApi.start();
-            }
-
-            public List<BallModel> ChangeBallToBallInModel()
-            {
-                List<BallModel> result = new List<BallModel>();
-
-                foreach (Ball ball in logicApi.getBalls())
+                logicApi.AddBallsAndStart(ballsAmount);
+                for (int i = 1; i <= ballsAmount; i++)
                 {
-                    result.Add(new BallModel(ball));
+                    BallInModel newBall = new BallInModel(logicApi.getBallPositionX(i), logicApi.getBallPositionY(i), logicApi.getBallRadius(i));
+                    Balls.Add(newBall);
                 }
-                return result;
+
+                foreach (BallInModel ball in Balls)
+                {
+                    BallChanged?.Invoke(this, new BallChaneEventArgs() { Ball = ball });
+                }
+
             }
 
-            public override void removeBallsAndStart()
+            public override IDisposable Subscribe(IObserver<IBall> observer)
             {
-                logicApi.stop();
+                return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.Ball), ex => observer.OnError(ex), () => observer.OnCompleted());
             }
         }
     }

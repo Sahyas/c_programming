@@ -1,39 +1,24 @@
 ﻿using Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Threading;
+using System;
+using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class ViewModelWindow : INotifyPropertyChanged
+    public class ViewModelMainWindow : INotifyPropertyChanged
     {
         private ModelAPI modelApi;
-        private readonly double scale = 5.35;
-        public ObservableCollection<BallModel> Balls { get; set; }
+        public ObservableCollection<IBall> Balls { get; set; }
+
         public ICommand StartButtonClick { get; set; }
-        public ICommand StopButtonClick { get; set; }
         private string inputText;
-        private Task task;
 
         private bool state;
-        private bool notState = false;
-
-        public bool NotState
-        {
-            get { 
-                return notState; 
-            }
-            set { 
-                notState = value;
-                RaisePropertyChanged(nameof(NotState));
-            }
-        }
 
         public bool State
         {
@@ -44,7 +29,7 @@ namespace ViewModel
             set
             {
                 state = value;
-                RaisePropertyChanged(nameof(State)); 
+                RaisePropertyChanged(nameof(State));
             }
         }
 
@@ -79,48 +64,23 @@ namespace ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ViewModelWindow() : this(ModelAPI.CreateApi())
+        public ViewModelMainWindow() : this(ModelAPI.CreateApi())
         {
 
         }
 
-        public ViewModelWindow(ModelAPI baseModel)
+        public ViewModelMainWindow(ModelAPI baseModel)
         {
             State = true;
             this.modelApi = baseModel;
             StartButtonClick = new RelayCommand(() => StartButtonClickHandler());
-            StopButtonClick = new RelayCommand(() => StopButtonClickHandler());
-            Balls = new ObservableCollection<BallModel>();
-        }
-
-        private void StopButtonClickHandler()
-        {
-                modelApi.removeBallsAndStart();
-                readFromTextBox();
+            Balls = new ObservableCollection<IBall>();
+            IDisposable observer = modelApi.Subscribe(x => Balls.Add(x));
         }
 
         private void StartButtonClickHandler()
         {
-                modelApi.addBallsAndStart(readFromTextBox());
-                task = new Task(UpdatePosition);
-                task.Start();
-        }
-
-        public void UpdatePosition()
-        {
-            while (true)
-            {
-                ObservableCollection<BallModel> treadList = new ObservableCollection<BallModel>();
-
-                foreach (BallModel ball in modelApi.balls)
-                {
-                    treadList.Add(ball);
-                }
-
-                Balls = treadList;
-                RaisePropertyChanged(nameof(Balls));
-                Thread.Sleep(10);
-            }
+            modelApi.AddBallsAndStart(readFromTextBox());
         }
 
         public int readFromTextBox()
@@ -130,13 +90,10 @@ namespace ViewModel
             {
                 number = Int32.Parse(InputText);
                 ErrorMessage = "";
-                State = !State;
-                NotState = !NotState;
-                if (number > 100)
+                State = false;
+                if (number > 10)
                 {
-                    //return 100;
-                    ErrorMessage = "Podaj <= 100";
-                    return 0;
+                    return 10;
                 }
                 return number;
             }
@@ -150,4 +107,3 @@ namespace ViewModel
         }
     }
 }
-

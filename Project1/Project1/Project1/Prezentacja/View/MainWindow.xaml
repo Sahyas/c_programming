@@ -6,12 +6,12 @@
         xmlns:vm1="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Title="Concurrent programming" 
-        Height="700" 
-        Width="1000"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
            Background="#222" 
-        WindowState="Normal">
+        WindowState="Maximized">
     <Window.DataContext>
-        <vm1:ViewModelWindow/>
+        <vm1:ViewModelMainWindow/>
     </Window.DataContext>
     <StackPanel Orientation="Vertical">
 
@@ -22,7 +22,7 @@
                     <RowDefinition Height="39*"/>
                 </Grid.RowDefinitions>
                 <!-- Stop button -->
-                <Button x:Name="stopButton" Content="STOP" FontSize="25" Margin="-170,218,850,77" IsEnabled="{Binding NotState}" Command="{Binding StopButtonClick}" />
+                <Button x:Name="stopButton" Content="STOP" FontSize="25" Margin="-170,218,850,77" IsEnabled="{Binding State}" Command="{Binding StopButtonClick}" />
                 <!-- Start button -->
                 <Button x:Name="startButton" Content="START" FontSize="25" Margin="-170,118,850,177" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
                 <Label Height="50" FontSize="25" Foreground="LightGray" Margin="-170,49,850,454" Content="{Binding ErrorMessage}" Grid.Row="1"/>
@@ -40,14 +40,14 @@
 
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Ellipse Width= "25" Height="25" Fill="MediumOrchid" Stroke="Black" StrokeThickness="1"/>
+                                    <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="MediumOrchid" Stroke="Black" StrokeThickness="1"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
 
                             <ItemsControl.ItemContainerStyle>
                                 <Style TargetType="ContentPresenter">
-                                    <Setter  Property="Canvas.Top" Value="{Binding Y}"/>
-                                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                    <Setter  Property="Canvas.Top" Value="{Binding Left}"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding Top}"/>
                                 </Style>
                             </ItemsControl.ItemContainerStyle>
                         </ItemsControl>

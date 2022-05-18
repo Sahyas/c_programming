@@ -34,8 +34,8 @@ namespace Dane
             this.positionX = generateRandomDouble(1, 500);
             this.positionY = generateRandomDouble(1, 500);
 
-            this.shiftX = generateRandomDouble(0, 3);
-            this.shiftY = generateRandomDouble(0, 3);
+            this.shiftX = generateRandomDouble(3, 5);
+            this.shiftY = generateRandomDouble(3, 5);
         }
         public void StartMoving()
         {
@@ -56,7 +56,7 @@ namespace Dane
                         observer.OnNext(id);
                     }
                 }
-                System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(20);
             }
         }
 
@@ -68,7 +68,28 @@ namespace Dane
 
         public IDisposable Subscribe(IObserver<int> observer)
         {
-            throw new NotImplementedException();
+            if (!observers.Contains(observer))
+                observers.Add(observer);
+            return new Unsubscriber(observers, observer);
+        }
+
+        private class Unsubscriber : IDisposable
+        {
+            private IList<IObserver<int>> _observers;
+            private IObserver<int> _observer;
+
+            public Unsubscriber
+            (IList<IObserver<int>> observers, IObserver<int> observer)
+            {
+                _observers = observers;
+                _observer = observer;
+            }
+
+            public void Dispose()
+            {
+                if (_observer != null && _observers.Contains(_observer))
+                    _observers.Remove(_observer);
+            }
         }
     }
 }

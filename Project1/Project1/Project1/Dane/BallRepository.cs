@@ -24,7 +24,7 @@ namespace Dane
 
         public Ball getBall(int id)
         {
-            return balls[balls.Count - 1];
+            return balls[id - 1];
         }
     }
 }
