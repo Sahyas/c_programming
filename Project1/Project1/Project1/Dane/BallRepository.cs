@@ -7,7 +7,7 @@ namespace Dane
     public class BallRepository
     {
         public List<Ball> balls { get; set; }
-        public int boardSize { get; set; } = 550;
+        public int boardSize { get; set; } = 555;
 
         public BallRepository()
         {

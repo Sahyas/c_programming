@@ -13,7 +13,7 @@ namespace Dane
         public double positionY { get; private set; }
         public double shiftX { get; set; }
         public double shiftY { get; set; }
-        public int Radius { get; } = 20;
+        public int Radius { get; } = 12;
         public double Mass { get; } = 10;
         internal readonly IList<IObserver<int>> observers;
 
