@@ -13,20 +13,27 @@ namespace DaneTest
         [SetUp]
         public void Setup()
         {
-            BallRepository BallRepository = new BallRepository();
-            BallRepository.createBalls(2);
-            Assert.AreEqual(BallRepository.balls.Count, 2);
-            Assert.AreEqual(BallRepository.balls[0].id, 1);
-            Assert.AreEqual(BallRepository.balls[1].id, 2);
+            BallRepository repo = new BallRepository();
+            repo.createBalls(5);
+
+            Assert.AreEqual(repo.balls.Count, 5);
+            Assert.AreEqual(repo.balls[0].id, 1);
+            Assert.AreEqual(repo.balls[1].id, 2);
+            Assert.AreEqual(repo.balls[2].id, 3);
+            Assert.AreEqual(repo.balls[3].id, 4);
+            Assert.AreEqual(repo.balls[4].id, 5);
         }
 
         [Test]
         public void getBallsTest()
         {
-            BallRepository BallRepository = new BallRepository();
-            BallRepository.createBalls(2);
-            Assert.AreEqual(BallRepository.getBall(1), BallRepository.balls[0]);
-            Assert.AreEqual(BallRepository.getBall(2), BallRepository.balls[1]);
+            BallRepository repo = new BallRepository();
+            repo.createBalls(5);
+            Assert.AreEqual(repo.getBall(1), repo.balls[0]);
+            Assert.AreEqual(repo.getBall(2), repo.balls[1]);
+            Assert.AreEqual(repo.getBall(3), repo.balls[2]);
+            Assert.AreEqual(repo.getBall(4), repo.balls[3]);
+            Assert.AreEqual(repo.getBall(5), repo.balls[4]);
         }
     }
 }

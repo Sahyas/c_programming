@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DaneTest
+namespace LogikaTest
 {
-    public class LogicAPITest
+    internal class LogicAPITest
     {
         [SetUp]
         public void Setup()
@@ -19,9 +19,8 @@ namespace DaneTest
         [Test]
         public void CollisionTest()
         {
-            LogicAPI Logicapi = LogicAPI.CreateLayer();
-            Logicapi.AddBallsAndStart(1);
-            Assert.AreEqual(Logicapi.getBallRadius(1), 12);
+            LogicAPI logic = LogicAPI.CreateLayer();
+            logic.AddBallsAndStart(1);
         }
     }
 }
