@@ -10,13 +10,13 @@ using Dane;
 
 namespace Dane
 {
-    internal class DAO : IDisposable
+    internal class Logger : IDisposable
     {
         private BlockingCollection<String> buffer = new BlockingCollection<String>();
         private Task fileWritter;
         private StreamWriter sw;
 
-        public DAO()
+        public Logger()
         {
             fileWritter = new Task(() => writter());
             fileWritter.Start();
@@ -24,7 +24,8 @@ namespace Dane
 
         public void addToBuffer(Ball ball)
         {
-            string log = " Ball "
+            string log = DateTime.Now.ToString("HH:mm:ss ")
+                    + " Ball "
                     + ball.id
                     + " moved: "
                     + " positionX: "
@@ -35,6 +36,9 @@ namespace Dane
                     + Math.Round(ball.speedX, 4)
                     + " speedY: "
                     + Math.Round(ball.speedY, 4);
+                  
+
+
 
             buffer.Add(log);
         }

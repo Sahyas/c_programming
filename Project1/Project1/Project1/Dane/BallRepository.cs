@@ -8,12 +8,12 @@ namespace Dane
     {
         public List<Ball> balls { get; set; }
         public int boardSize { get; set; } = 555;
-        DAO dao;
+        Logger dao;
 
         public BallRepository()
         {
             balls = new List<Ball>();
-            dao = new DAO();
+            dao = new Logger();
         }
 
         public void createBalls(int amount)

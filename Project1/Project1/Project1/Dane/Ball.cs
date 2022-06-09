@@ -26,7 +26,7 @@ namespace Dane
         Stopwatch stopwatch;
         Random rng = new Random();
 
-        internal DAO dao { get; set; }
+        internal Logger dao { get; set; }
 
         public double generateRandomDouble(double min, double max)
         {
@@ -62,7 +62,7 @@ namespace Dane
                 stopwatch.Restart();
                 stopwatch.Start();
                 ChangeBallPosition(time);
-                if (counter % 1000 == 0)
+                if (counter % 2000 == 0)
                 {
                     dao.addToBuffer(this);
                     counter = 1;
