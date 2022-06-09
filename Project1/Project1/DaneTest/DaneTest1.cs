@@ -24,8 +24,8 @@ namespace DaneTest
             DaneAbstractAPI api = DaneAbstractAPI.CreateDataApi();
             api.createBalls(1);
             api.setBallSpeed(1, 2, 2);
-            Assert.AreEqual(api.getBallSpeedX(1), 2);
-            Assert.AreEqual(api.getBallSpeedY(1), 2);
+            Assert.AreEqual(api.getBallspeedX(1), 2);
+            Assert.AreEqual(api.getBallspeedY(1), 2);
         }
     }
 }

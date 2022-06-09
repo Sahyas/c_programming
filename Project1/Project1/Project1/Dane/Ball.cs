@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dane
 {
-    public class Ball : IObservable<int>
+    public class Ball : IBall
     {
         public int id { get; }
         public double positionX { get; private set; }
         public double positionY { get; private set; }
         public double shiftX { get; set; }
         public double shiftY { get; set; }
+        public double speedX { get; set; }
+        public double speedY { get; set; }
         public int Radius { get; } = 12;
         public double Mass { get; } = 10;
-        internal readonly IList<IObserver<int>> observers;
+        public int counter { get; set; } = 1;
+        public bool isRunning = true;
+        internal readonly IList<IObserver<IBall>> observers;
 
         private Task BallThread;
-
+        Stopwatch stopwatch;
         Random rng = new Random();
+
+        internal DAO dao { get; set; }
 
         public double generateRandomDouble(double min, double max)
         {
@@ -29,14 +36,16 @@ namespace Dane
         public Ball(int id)
         {
             this.id = id;
-            observers = new List<IObserver<int>>();
+            observers = new List<IObserver<IBall>>();
+            stopwatch = new Stopwatch();
 
             this.positionX = generateRandomDouble(1, 500);
             this.positionY = generateRandomDouble(1, 500);
 
-            this.shiftX = generateRandomDouble(3, 5);
-            this.shiftY = generateRandomDouble(3, 5);
+            this.speedX = generateRandomDouble(0.2, 0)/5;
+            this.speedY = generateRandomDouble(0.2, 0)/5;
         }
+
         public void StartMoving()
         {
             this.BallThread = new Task(MoveBall);
@@ -45,28 +54,50 @@ namespace Dane
 
         public void MoveBall()
         {
-            while (true)
+            while (isRunning)
             {
-                changeBallPosition();
+                long time = stopwatch.ElapsedMilliseconds;
+                counter++;
 
-                foreach ( var observer in observers.ToList())
+                stopwatch.Restart();
+                stopwatch.Start();
+                ChangeBallPosition(time);
+                if (counter % 1000 == 0)
                 {
-                    if( observer != null)
+                    dao.addToBuffer(this);
+                    counter = 1;
+                }
+
+                foreach (var observer in observers.ToList())
+                {
+                    if (observer != null)
                     {
-                        observer.OnNext(id);
+                        observer.OnNext(this);
                     }
                 }
-                System.Threading.Thread.Sleep(20);
+                stopwatch.Stop();
             }
         }
 
-        public void changeBallPosition()
+        public void ChangeBallPosition(long time)
         {
+
+            if (time > 0)
+            { 
+                shiftX = speedX /5 * time;
+                shiftY = speedY /5 * time;
+            }
+            else
+            {
+                shiftX = speedX /5;
+                shiftY = speedY /5;
+            }
+
             positionX += shiftX;
             positionY += shiftY;
         }
 
-        public IDisposable Subscribe(IObserver<int> observer)
+        public IDisposable Subscribe(IObserver<IBall> observer)
         {
             if (!observers.Contains(observer))
                 observers.Add(observer);
@@ -75,11 +106,11 @@ namespace Dane
 
         private class Unsubscriber : IDisposable
         {
-            private IList<IObserver<int>> _observers;
-            private IObserver<int> _observer;
+            private IList<IObserver<IBall>> _observers;
+            private IObserver<IBall> _observer;
 
             public Unsubscriber
-            (IList<IObserver<int>> observers, IObserver<int> observer)
+            (IList<IObserver<IBall>> observers, IObserver<IBall> observer)
             {
                 _observers = observers;
                 _observer = observer;

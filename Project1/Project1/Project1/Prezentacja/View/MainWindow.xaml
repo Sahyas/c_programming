@@ -22,7 +22,7 @@
                     <RowDefinition Height="39*"/>
                 </Grid.RowDefinitions>
                 <!-- Stop button -->
-                <Button x:Name="stopButton" Content="STOP" FontSize="25" Margin="-170,218,850,77" IsEnabled="{Binding State}" Command="{Binding StopButtonClick}" />
+                <!--<Button x:Name="stopButton" Content="STOP" FontSize="25" Margin="-170,218,850,77" IsEnabled="{Binding State}" Command="{Binding StopButtonClick}" />-->
                 <!-- Start button -->
                 <Button x:Name="startButton" Content="START" FontSize="25" Margin="-170,118,850,177" IsEnabled="{Binding State}" Command="{Binding StartButtonClick}" />
                 <Label Height="50" FontSize="25" Foreground="LightGray" Margin="-170,49,850,454" Content="{Binding ErrorMessage}" Grid.Row="1"/>

@@ -45,7 +45,7 @@ namespace Model
             public ModelBall()
             {
                 logicApi = logicApi ?? LogicAPI.CreateLayer();
-                IDisposable observer = logicApi.Subscribe<int>(x => Balls[x - 1].Move(logicApi.getBallPositionX(x), logicApi.getBallPositionY(x)));
+                IDisposable observer = logicApi.Subscribe(x => Balls[x.id - 1].Move(x.positionX, x.positionY));
                 eventObservable = Observable.FromEventPattern<BallChaneEventArgs>(this, "BallChanged");
             }
 
@@ -54,7 +54,7 @@ namespace Model
                 logicApi.AddBallsAndStart(ballsAmount);
                 for (int i = 1; i <= ballsAmount; i++)
                 {
-                    BallInModel newBall = new BallInModel(logicApi.getBallPositionX(i), logicApi.getBallPositionY(i), logicApi.getBallRadius(i));
+                    BallInModel newBall = new BallInModel(logicApi.getBallpositionX(i), logicApi.getBallpositionY(i), logicApi.getBallRadius(i));
                     Balls.Add(newBall);
                 }
 

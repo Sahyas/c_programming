@@ -16,7 +16,6 @@ namespace DaneTest
             Ball Ball = new Ball(1);
             double pX = Ball.positionX;
             double pY = Ball.positionY;
-            Ball.changeBallPosition();
             Assert.AreEqual(Ball.positionX, pX + Ball.shiftX);
             Assert.AreEqual(Ball.positionY, pY + Ball.shiftY);
         }

@@ -9,17 +9,18 @@ using Dane;
 
 namespace Logika
 {
-    public abstract class LogicAPI : IObserver<int>, IObservable<int>
+    public abstract class LogicAPI : IObserver<IBall>, IObservable<IBall>
     {
         public abstract void AddBallsAndStart(int BallsAmount);
-        public abstract double getBallPositionX(int ballId);
-        public abstract double getBallPositionY(int ballId);
+        public abstract double getBallpositionX(int ballId);
+        public abstract double getBallpositionY(int ballId);
         public abstract int getBallRadius(int ballId);
 
-        public abstract IDisposable Subscribe(IObserver<int> observer);
+        public abstract IDisposable Subscribe(IObserver<IBall> observer);
         public abstract void OnCompleted();
         public abstract void OnError(Exception error);
-        public abstract void OnNext(int value);
+        public abstract void OnNext(IBall value);
+        Dictionary<int, IBall> ballTree;
 
 
         public static LogicAPI CreateLayer(DaneAbstractAPI data = default(DaneAbstractAPI))
@@ -29,10 +30,10 @@ namespace Logika
 
         public class BallChaneEventArgs : EventArgs
         {
-            public int ballId { get; set; }
+            public IBall ball { get; set; }
         }
 
-        private class BusinessLogic : LogicAPI, IObservable<int>
+        private class BusinessLogic : LogicAPI, IObservable<IBall>
         {
             private readonly DaneAbstractAPI dataAPI;
             private IDisposable unsubscriber;
@@ -45,16 +46,17 @@ namespace Logika
                 eventObservable = Observable.FromEventPattern<BallChaneEventArgs>(this, "BallChanged");
                 this.dataAPI = dataAPI;
                 Subscribe(dataAPI);
+                ballTree = new Dictionary<int, IBall>();
             }
 
-            public override double getBallPositionX(int ballId)
+            public override double getBallpositionX(int ballId)
             {
-                return this.dataAPI.getBallPositionX(ballId);
+                return this.dataAPI.getBallpositionX(ballId);
             }
 
-            public override double getBallPositionY(int ballId)
+            public override double getBallpositionY(int ballId)
             {
-                return this.dataAPI.getBallPositionY(ballId);
+                return this.dataAPI.getBallpositionY(ballId);
             }
 
             public override int getBallRadius(int ballId)
@@ -70,57 +72,37 @@ namespace Logika
 
             #region observer
 
-            public virtual void Subscribe(IObservable<int> provider)
+            public virtual void Subscribe(IObservable<IBall> provider)
             {
                 if (provider != null)
                     unsubscriber = provider.Subscribe(this);
             }
 
-            public override void OnNext(int value)
+            public override void OnNext(IBall ball)
             {
                 Monitor.Enter(_lock);
                 try
                 {
-                    CollisionControler collisionControler = new CollisionControler(dataAPI.getBallPositionX(value), dataAPI.getBallPositionY(value), dataAPI.getBallSpeedX(value), dataAPI.getBallSpeedY(value), dataAPI.getBallRadius(value), 10);
-
-                    for (int i = 1; i <= dataAPI.getBallsAmount(); i++)
+                    if (!ballTree.ContainsKey(ball.id))
                     {
-                        if (value != i)
+                        ballTree.Add(ball.id, ball);
+                    }
+
+                    foreach (var item in ballTree)
+                    {
+                        if (item.Key != ball.id)
                         {
-                            double otherBallX = dataAPI.getBallPositionX(i);
-                            double otherBallY = dataAPI.getBallPositionY(i);
-                            double otherBallSpeedX = dataAPI.getBallSpeedX(i);
-                            double otherBallSpeedY = dataAPI.getBallSpeedY(i);
-                            int otherBallRadius = dataAPI.getBallRadius(i);
-                            double otherBallMass = dataAPI.getBallMass(i);
-
-                            if (collisionControler.IsCollision(otherBallX + otherBallSpeedX, otherBallY + otherBallSpeedY, otherBallRadius, true))
+                            if (CollisionControler.IsCollision(ball, item.Value))
                             {
-                                if (!collisionControler.IsCollision(otherBallX, otherBallY, otherBallRadius, false))
-                                {
-                                    System.Diagnostics.Trace.WriteLine("Ball " + value + " hit ball " + i);
-
-                                    Vector2[] newVelocity = collisionControler.ImpulseSpeed(otherBallX, otherBallY, otherBallSpeedX, otherBallSpeedY, otherBallMass);
-
-                                    dataAPI.setBallSpeed(value, newVelocity[0].X, newVelocity[0].Y);
-                                    dataAPI.setBallSpeed(i, newVelocity[1].Y, newVelocity[1].Y);
-                                }
+                                CollisionControler.ImpulseSpeed(ball, item.Value);
                             }
                         }
                     }
 
-                    int boardSize = dataAPI.getBoardSize();
+                    CollisionControler.IsTouchingBoundaries(ball, dataAPI.getBoardSize());
 
-                    if (collisionControler.IsTouchingBoundariesX(boardSize))
-                    {
-                        dataAPI.setBallSpeed(value, -dataAPI.getBallSpeedX(value), dataAPI.getBallSpeedY(value));
-                    }
+                    BallChanged?.Invoke(this, new BallChaneEventArgs() { ball = ball });
 
-                    if (collisionControler.IsTouchingBoundariesY(boardSize))
-                    {
-                        dataAPI.setBallSpeed(value, dataAPI.getBallSpeedX(value), -dataAPI.getBallSpeedY(value));
-                    }
-                    BallChanged?.Invoke(this, new BallChaneEventArgs() { ballId = value });
                 }
                 catch (SynchronizationLockException exception)
                 {
@@ -150,9 +132,9 @@ namespace Logika
             #endregion
 
             #region observable
-            public override IDisposable Subscribe(IObserver<int> observer)
+            public override IDisposable Subscribe(IObserver<IBall> observer)
             {
-                return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.ballId), ex => observer.OnError(ex), () => observer.OnCompleted());
+                return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.ball), ex => observer.OnError(ex), () => observer.OnCompleted());
             }
             #endregion
 

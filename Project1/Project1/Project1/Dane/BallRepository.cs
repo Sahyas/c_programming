@@ -8,17 +8,21 @@ namespace Dane
     {
         public List<Ball> balls { get; set; }
         public int boardSize { get; set; } = 555;
+        DAO dao;
 
         public BallRepository()
         {
             balls = new List<Ball>();
+            dao = new DAO();
         }
 
         public void createBalls(int amount)
         {
             for(int i = 0; i < amount; i++)
             {
-                balls.Add(new Ball(i + 1));
+                Ball newBall = new Ball(i + 1);
+                balls.Add(newBall);
+                newBall.dao = dao;
             }
         }
 
